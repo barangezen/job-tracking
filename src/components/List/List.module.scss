@@ -1,0 +1,42 @@
+@mixin priortyContainer($color-default) {
+  background-color: $color-default;
+  height: 25px;
+  width: 75px;
+  border-radius: 5px;
+  text-align: center;
+  padding-top: 5px;
+  .text {
+    color: white;
+    font-weight: 700;
+  }
+}
+
+.urgentContainer {
+  @include priortyContainer(#ff3367);
+}
+
+.regularContainer {
+  @include priortyContainer(#f9c905);
+}
+
+.trivalContainer {
+  @include priortyContainer(#2660fb);
+}
+
+.filterContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 15px 10px 15px;
+  background-color: #d5d5f9;
+  height: 50px;
+  margin-bottom: 2px;
+
+  .searchFilter {
+    width: 65%;
+    margin-right: 10px;
+  }
+  .selectFilter {
+    width: 35%;
+  }
+}
