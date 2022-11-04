@@ -1,28 +1,43 @@
 import React from "react";
 import styles from "./TextField.module.scss";
-import { TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 
 interface ITextFieldProps {
-  title: string;
   className?: string;
+  title?: string;
+  label?: string;
+  placeholder?: string;
+  variant: "outlined" | "filled" | "standard";
   size: "small" | "medium";
+  inputIcon?: React.ReactNode;
 }
 
 export const CustomTextField: React.FC<ITextFieldProps> = ({
-  title,
   className,
+  title,
+  label,
+  placeholder,
+  variant,
   size,
+  inputIcon,
 }) => {
   return (
-      <Stack className={styles.container}>
-        <div className={styles.title}>{title}</div>
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          size={size}
-          className={className}
-        />
-      </Stack>
+    <Stack className={styles.container}>
+      {title && <div className={styles.title}>{title}</div>}
+      <TextField
+        className={className}
+        id="outlined-basic"
+        label={label}
+        placeholder={placeholder}
+        variant={variant}
+        size={size}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">{inputIcon}</InputAdornment>
+          ),
+        }}
+      />
+    </Stack>
   );
 };

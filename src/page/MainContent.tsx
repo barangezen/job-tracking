@@ -12,10 +12,10 @@ export const MainContent: React.FC = () => {
       <span className={styles.title}>Create New Job</span>
       <Stack className={styles.createJobContainer}>
         <div className={styles.jobNameCreate}>
-          <CustomTextField title={"Job Name"} size="small" />
+          <CustomTextField title={"Job Name"} size="small" variant="outlined" />
         </div>
         <div className={styles.priortySelect}>
-          <Dropdown />
+          <Dropdown title="Job Priorty" />
         </div>
         <Button
           className={styles.createButton}
