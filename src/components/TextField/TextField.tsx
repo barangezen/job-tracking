@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./TextField.module.scss";
 import { TextField } from "@mui/material";
+import { Stack } from "@mui/system";
 
 interface ITextFieldProps {
   title: string;
@@ -14,14 +15,14 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
   size,
 }) => {
   return (
-    <React.Fragment>
-      <div className={styles.title}>{title}</div>
-      <TextField
-        id="outlined-basic"
-        variant="outlined"
-        size={size}
-        className={className}
-      />
-    </React.Fragment>
+      <Stack className={styles.container}>
+        <div className={styles.title}>{title}</div>
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          size={size}
+          className={className}
+        />
+      </Stack>
   );
 };
