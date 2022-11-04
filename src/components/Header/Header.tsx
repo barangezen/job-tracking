@@ -1,5 +1,4 @@
-
-import styles from './Header.module.scss';
+import styles from "./Header.module.scss";
 
 export const AppHeader: React.FC = () => {
   return (
