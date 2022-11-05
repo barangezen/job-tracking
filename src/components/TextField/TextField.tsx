@@ -11,6 +11,8 @@ interface ITextFieldProps {
   variant: "outlined" | "filled" | "standard";
   size: "small" | "medium";
   inputIcon?: React.ReactNode;
+  value?: string;
+  onChange?: any;
 }
 
 export const CustomTextField: React.FC<ITextFieldProps> = ({
@@ -21,6 +23,8 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
   variant,
   size,
   inputIcon,
+  value,
+  onChange
 }) => {
   return (
     <Stack className={styles.container}>
@@ -29,6 +33,7 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
         className={className}
         id="outlined-basic"
         label={label}
+        
         placeholder={placeholder}
         variant={variant}
         size={size}
@@ -37,6 +42,8 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
             <InputAdornment position="start">{inputIcon}</InputAdornment>
           ),
         }}
+        value={value}
+        onChange={onChange}
       />
     </Stack>
   );

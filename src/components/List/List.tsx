@@ -11,6 +11,7 @@ import {
   IconButton,
   styled,
   tableCellClasses,
+  SelectChangeEvent,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
@@ -20,9 +21,12 @@ import { Dropdown } from "../Dropdown/Dropdown";
 import { useAppSelector } from "../../store";
 import { IDropdownData, IJob } from "../../globals/models";
 import { Priorties } from "../../globals/enums";
+import { useState } from "react";
 
 export const List: React.FC = () => {
   const jobs = useAppSelector((state) => state.jobs);
+  const [filterInput, setFilterInput] = useState("");
+  const [selectedPriorty, setSelectedPriorty] = useState("")
 
   const dropdownValues: IDropdownData[]  = [
     {value: "all", displayName: "Priorty (all)"},
@@ -30,6 +34,17 @@ export const List: React.FC = () => {
     {value: Priorties.REGULAR, displayName: "Regular"},
     {value: Priorties.URGENT, displayName: "Urgent"},
   ]
+  
+  const handleFilterInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setFilterInput(event.target.value);
+  };
+
+  const handleDropdownChange = (event: SelectChangeEvent) => {
+    setSelectedPriorty(event.target.value as string);
+  };
+
 
   const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
@@ -73,10 +88,12 @@ export const List: React.FC = () => {
             placeholder="Job Name"
             variant="outlined"
             inputIcon={<SearchIcon />}
+            value={filterInput}
+            onChange={handleFilterInputChange}
           />
         </div>
         <div className={styles.selectFilter}>
-          <Dropdown data={dropdownValues} inputLabel label={"Priorty"} />
+          <Dropdown inputLabel label={"Priorty"} data={dropdownValues} value={selectedPriorty} onChange={handleDropdownChange}  />
         </div>
       </div>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -90,7 +107,7 @@ export const List: React.FC = () => {
         <TableBody>
           {jobs.map((job: IJob) => (
             <StyledTableRow
-              key={job.name}
+              key={job.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
