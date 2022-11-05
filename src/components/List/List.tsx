@@ -17,21 +17,26 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CustomTextField } from "../TextField/TextField";
 import { Dropdown } from "../Dropdown/Dropdown";
+import { useAppSelector } from "../../store";
+import { IJob } from "../../globals/models";
+import { Priorties } from "../../globals/enums";
 
-function createData(name: string, priorty: string) {
+/* function createData(name: string, priorty: string) {
   return { name, priorty };
-}
+} */
 
-const rows = [
+/* const rows = [
   createData("adaylarla ilgili bir odev hazirlamam gerekiyor", "Urgent"),
   createData(
     "Yapilan islerle ilgili activity kayitrlari olusturmam gerekiyor",
     "Regular"
   ),
   createData("adaylarla ilgili bir odev hazirlamam gerekiyor", "Trival"),
-];
+]; */
 
 export const List: React.FC = () => {
+  const jobs = useAppSelector((state) => state.jobs);
+
   const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#D5D5F9",
@@ -53,14 +58,14 @@ export const List: React.FC = () => {
     },
   }));
 
-  const priortyTypeStyle = (type: string) => {
-    if (type === "Trival") {
+  const priortyTypeStyle = (type: Priorties) => {
+    if (type === Priorties.TRIVAL) {
       return styles.trivalContainer;
     }
-    if (type === "Regular") {
+    if (type === Priorties.REGULAR) {
       return styles.regularContainer;
     }
-    if (type === "Urgent") {
+    if (type === Priorties.URGENT) {
       return styles.urgentContainer;
     }
   };
@@ -89,17 +94,17 @@ export const List: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {jobs.map((job: IJob) => (
             <StyledTableRow
-              key={row.name}
+              key={job.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {job.name}
               </TableCell>
               <TableCell align="left">
-                <div className={priortyTypeStyle(row.priorty)}>
-                  <span className={styles.text}>{row.priorty}</span>
+                <div className={priortyTypeStyle(job.priorty)}>
+                  <span className={styles.text}>{job.priorty}</span>
                 </div>
               </TableCell>
               <TableCell align="center">
