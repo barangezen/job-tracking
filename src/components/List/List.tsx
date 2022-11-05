@@ -18,24 +18,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { CustomTextField } from "../TextField/TextField";
 import { Dropdown } from "../Dropdown/Dropdown";
 import { useAppSelector } from "../../store";
-import { IJob } from "../../globals/models";
+import { IDropdownData, IJob } from "../../globals/models";
 import { Priorties } from "../../globals/enums";
-
-/* function createData(name: string, priorty: string) {
-  return { name, priorty };
-} */
-
-/* const rows = [
-  createData("adaylarla ilgili bir odev hazirlamam gerekiyor", "Urgent"),
-  createData(
-    "Yapilan islerle ilgili activity kayitrlari olusturmam gerekiyor",
-    "Regular"
-  ),
-  createData("adaylarla ilgili bir odev hazirlamam gerekiyor", "Trival"),
-]; */
 
 export const List: React.FC = () => {
   const jobs = useAppSelector((state) => state.jobs);
+
+  const dropdownValues: IDropdownData[]  = [
+    {value: "all", displayName: "Priorty (all)"},
+    {value: Priorties.TRIVAL, displayName: "Trival"},
+    {value: Priorties.REGULAR, displayName: "Regular"},
+    {value: Priorties.URGENT, displayName: "Urgent"},
+  ]
 
   const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
@@ -82,7 +76,7 @@ export const List: React.FC = () => {
           />
         </div>
         <div className={styles.selectFilter}>
-          <Dropdown inputLabel label={"Priorty"} />
+          <Dropdown data={dropdownValues} inputLabel label={"Priorty"} />
         </div>
       </div>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
