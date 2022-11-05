@@ -5,3 +5,8 @@ export interface IJob {
   name: string;
   priorty: Priorties;
 }
+
+export interface IDropdownData {
+    value: string | Priorties;
+    displayName: string;
+  }

@@ -3,3 +3,4 @@ export enum Priorties {
   REGULAR = "Regular",
   URGENT = "Urgent",
 }
+
