@@ -23,20 +23,49 @@
   @include priortyContainer(#2660fb);
 }
 
-.filterContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px 15px 10px 15px;
-  background-color: #d5d5f9;
-  height: 50px;
-  margin-bottom: 2px;
+.container {
+  overflow-x: auto;
 
-  .searchFilter {
-    width: 65%;
-    margin-right: 10px;
+  .filterContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 15px 10px 15px;
+    background-color: #d5d5f9;
+    height: 50px;
+    margin-bottom: 2px;
+
+    .searchFilter {
+      width: 65%;
+      margin-right: 10px;
+    }
+
+    .selectFilter {
+      width: 35%;
+    }
   }
-  .selectFilter {
-    width: 35%;
+  .cellNameTitle {
+    width: 37vw;
+  }
+  .jobNameContainer {
+    width: 37vw;
+    .jobName {
+      display: block;
+      width: 37vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .noJobContainer {
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+
+    .noJobText {
+      font-weight: 600;
+      color: #898787;
+    }
   }
 }

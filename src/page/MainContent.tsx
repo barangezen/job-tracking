@@ -6,13 +6,19 @@ import { CustomTextField } from "../components/TextField/TextField";
 import { Stack } from "@mui/system";
 import { List } from "../components/List/List";
 import { Priorties } from "../globals/enums";
-import { IDropdownData } from "../globals/models";
+import { IDropdownData, IJob } from "../globals/models";
 import { useState } from "react";
+import { useAppDispatch } from "../store";
+import { addJob } from "../features/jobsSlice";
 
 export const MainContent: React.FC = () => {
+  const { v4: uuidv4 } = require("uuid");
   const [createInput, setCreateInput] = useState("");
-  const [selectedPriorty, setSelectedPriorty] = useState("");
-  
+  const [selectedPriorty, setSelectedPriorty] = useState<Priorties>(
+    Priorties.TRIVAL
+  );
+  const dispatch = useAppDispatch();
+
   const dropdownValues: IDropdownData[] = [
     { value: Priorties.TRIVAL, displayName: "Trival" },
     { value: Priorties.REGULAR, displayName: "Regular" },
@@ -26,7 +32,17 @@ export const MainContent: React.FC = () => {
   };
 
   const handleDropdownChange = (event: SelectChangeEvent) => {
-    setSelectedPriorty(event.target.value as string);
+    setSelectedPriorty(event.target.value as Priorties);
+  };
+
+  const handleCreateJob = (jobName: string, jobPriorty: Priorties) => {
+    const newJob: IJob = {
+      id: uuidv4(),
+      name: jobName,
+      priorty: jobPriorty,
+    };
+    dispatch(addJob(newJob));
+    setCreateInput("");
   };
 
   return (
@@ -56,6 +72,7 @@ export const MainContent: React.FC = () => {
           variant="contained"
           color="primary"
           startIcon={<AddIcon />}
+          onClick={() => handleCreateJob(createInput, selectedPriorty)}
         >
           Create
         </Button>

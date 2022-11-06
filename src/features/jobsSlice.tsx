@@ -25,7 +25,18 @@ const initialState: IJob[] = [
 const jobsSlice = createSlice({
   name: "jobs",
   initialState,
-  reducers: {},
+  reducers: {
+    addJob: (state, action) => {
+      state.push(action.payload);
+    },
+    removeJob: (state, action) => {
+      state.splice(
+        state.findIndex((job) => job.id === action.payload),
+        1
+      );
+    },
+  },
 });
 
+export const { addJob, removeJob } = jobsSlice.actions;
 export default jobsSlice.reducer;
