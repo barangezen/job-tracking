@@ -18,23 +18,25 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CustomTextField } from "../TextField/TextField";
 import { Dropdown } from "../Dropdown/Dropdown";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { IDropdownData, IJob } from "../../globals/models";
 import { Priorties } from "../../globals/enums";
 import { useState } from "react";
+import { removeJob } from "../../features/jobsSlice";
 
 export const List: React.FC = () => {
   const jobs = useAppSelector((state) => state.jobs);
   const [filterInput, setFilterInput] = useState("");
-  const [selectedPriorty, setSelectedPriorty] = useState("")
+  const [selectedPriorty, setSelectedPriorty] = useState("");
+  const dispatch = useAppDispatch();
 
-  const dropdownValues: IDropdownData[]  = [
-    {value: "all", displayName: "Priorty (all)"},
-    {value: Priorties.TRIVAL, displayName: "Trival"},
-    {value: Priorties.REGULAR, displayName: "Regular"},
-    {value: Priorties.URGENT, displayName: "Urgent"},
-  ]
-  
+  const dropdownValues: IDropdownData[] = [
+    { value: "all", displayName: "Priorty (all)" },
+    { value: Priorties.TRIVAL, displayName: "Trival" },
+    { value: Priorties.REGULAR, displayName: "Regular" },
+    { value: Priorties.URGENT, displayName: "Urgent" },
+  ];
+
   const handleFilterInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -44,7 +46,6 @@ export const List: React.FC = () => {
   const handleDropdownChange = (event: SelectChangeEvent) => {
     setSelectedPriorty(event.target.value as string);
   };
-
 
   const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
@@ -79,8 +80,15 @@ export const List: React.FC = () => {
     }
   };
 
+  const handleJobDelete = (id: string) => {
+    dispatch(removeJob(id));
+  };
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      className={styles.container}
+      component={Paper}
+      style={{ overflowX: "auto" }}
+    >
       <div className={styles.filterContainer}>
         <div className={styles.searchFilter}>
           <CustomTextField
@@ -93,13 +101,21 @@ export const List: React.FC = () => {
           />
         </div>
         <div className={styles.selectFilter}>
-          <Dropdown inputLabel label={"Priorty"} data={dropdownValues} value={selectedPriorty} onChange={handleDropdownChange}  />
+          <Dropdown
+            inputLabel
+            label={"Priorty"}
+            data={dropdownValues}
+            value={selectedPriorty}
+            onChange={handleDropdownChange}
+          />
         </div>
       </div>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell className={styles.cellNameTitle}>
+              Name
+            </StyledTableCell>
             <StyledTableCell align="left">Priorty</StyledTableCell>
             <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
@@ -110,8 +126,12 @@ export const List: React.FC = () => {
               key={job.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {job.name}
+              <TableCell
+                className={styles.jobNameContainer}
+                component="th"
+                scope="row"
+              >
+                <span className={styles.jobName}>{job.name}</span>
               </TableCell>
               <TableCell align="left">
                 <div className={priortyTypeStyle(job.priorty)}>
@@ -123,7 +143,10 @@ export const List: React.FC = () => {
                   <IconButton aria-label="edit">
                     <EditIcon />
                   </IconButton>
-                  <IconButton aria-label="delete">
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handleJobDelete(job.id)}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </Stack>
@@ -132,6 +155,11 @@ export const List: React.FC = () => {
           ))}
         </TableBody>
       </Table>
+      {jobs.length < 1 && (
+        <div className={styles.noJobContainer}>
+          <span className={styles.noJobText}>There is no job...</span>
+        </div>
+      )}
     </TableContainer>
   );
 };
