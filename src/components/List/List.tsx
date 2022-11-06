@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./List.module.scss";
 import {
   TableContainer,
@@ -12,6 +13,8 @@ import {
   styled,
   tableCellClasses,
   SelectChangeEvent,
+  Dialog,
+  DialogContent,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
@@ -23,11 +26,15 @@ import { IDropdownData, IJob } from "../../globals/models";
 import { Priorties } from "../../globals/enums";
 import { useState } from "react";
 import { removeJob } from "../../features/jobsSlice";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { GenericButton } from "../Button/Button";
 
 export const List: React.FC = () => {
   const jobs = useAppSelector((state) => state.jobs);
   const [filterInput, setFilterInput] = useState("");
   const [selectedPriorty, setSelectedPriorty] = useState("");
+  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<IJob | undefined>();
   const dispatch = useAppDispatch();
 
   const dropdownValues: IDropdownData[] = [
@@ -80,9 +87,15 @@ export const List: React.FC = () => {
     }
   };
 
-  const handleJobDelete = (id: string) => {
+  const handleJobDelete = (id: string | undefined) => {
     dispatch(removeJob(id));
+    handleDeleteConfirm();
   };
+
+  const handleDeleteConfirm = () => {
+    setOpenDeleteConfirm(!openDeleteConfirm);
+  };
+
   return (
     <TableContainer
       className={styles.container}
@@ -121,38 +134,78 @@ export const List: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {jobs.map((job: IJob) => (
-            <StyledTableRow
-              key={job.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell
-                className={styles.jobNameContainer}
-                component="th"
-                scope="row"
+          {jobs.map((job: IJob) => {
+            return (
+              <StyledTableRow
+                key={job.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                onClick={() => setSelectedJob(job)}
               >
-                <span className={styles.jobName}>{job.name}</span>
-              </TableCell>
-              <TableCell align="left">
-                <div className={priortyTypeStyle(job.priorty)}>
-                  <span className={styles.text}>{job.priorty}</span>
-                </div>
-              </TableCell>
-              <TableCell align="center">
-                <Stack direction="row" spacing={1} justifyContent="center">
-                  <IconButton aria-label="edit">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handleJobDelete(job.id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Stack>
-              </TableCell>
-            </StyledTableRow>
-          ))}
+                <TableCell
+                  className={styles.jobNameContainer}
+                  component="th"
+                  scope="row"
+                >
+                  <span className={styles.jobName}>{job.name}</span>
+                </TableCell>
+                <TableCell align="left">
+                  <div className={priortyTypeStyle(job.priorty)}>
+                    <span className={styles.text}>{job.priorty}</span>
+                  </div>
+                </TableCell>
+                <TableCell align="center">
+                  <Stack direction="row" spacing={1} justifyContent="center">
+                    <IconButton aria-label="edit">
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      aria-label="delete"
+                      onClick={handleDeleteConfirm}
+                    >
+                      <DeleteIcon />
+                      {openDeleteConfirm && (
+                        <Dialog
+                          open={openDeleteConfirm}
+                          onClose={handleDeleteConfirm}
+                          maxWidth={"sm"}
+                        >
+                          <Stack className={styles.deleteConfirmContainer}>
+                            <div>
+                              <ErrorOutlineIcon
+                                className={styles.infoIcon}
+                                color="error"
+                              />
+                            </div>
+                            <DialogContent>
+                              <span className={styles.infoText}>
+                                Are you sure you want to delete it?
+                              </span>
+                            </DialogContent>
+                            <div className={styles.confirmButtonsContainer}>
+                              <GenericButton
+                                className={styles.cancelBtn}
+                                name="Cancel"
+                                variant="contained"
+                                color="inherit"
+                                onClick={handleDeleteConfirm}
+                              />
+                              <GenericButton
+                                className={styles.approveBtn}
+                                name="Approve"
+                                variant="contained"
+                                color="error"
+                                onClick={() => handleJobDelete(selectedJob?.id)}
+                              />
+                            </div>
+                          </Stack>
+                        </Dialog>
+                      )}
+                    </IconButton>
+                  </Stack>
+                </TableCell>
+              </StyledTableRow>
+            );
+          })}
         </TableBody>
       </Table>
       {jobs.length < 1 && (

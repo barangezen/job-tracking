@@ -69,3 +69,26 @@
     }
   }
 }
+
+.deleteConfirmContainer {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin: 25px;
+  .infoIcon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .infoText {
+    font-weight: 700;
+    font-size: larger;
+  }
+  .cancelBtn {
+    margin-right: 2rem;
+    width: 10rem;
+  }
+  .approveBtn {
+    width: 10rem;
+  }
+}
