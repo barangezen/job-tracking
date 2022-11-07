@@ -16,7 +16,8 @@ export const texts = {
     cancel: "Cancel",
     approve: "Approve",
     save: "Save",
-    deleteConfirm: "Are you sure you want to delete it?"
+    deleteConfirm: "Are you sure you want to delete it?",
+    emptyNameField: "You should enter a name"
 }
 
 //Static dropdown values.

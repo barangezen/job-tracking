@@ -4,6 +4,7 @@ interface IButtonProps {
   className?: string;
   name: string;
   variant?: "text" | "outlined" | "contained";
+
   color?:
     | "inherit"
     | "primary"
@@ -14,6 +15,8 @@ interface IButtonProps {
     | "warning";
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  startIcon?: JSX.Element;
+  size?: "small" | "medium" | "large";
 }
 
 export const GenericButton: React.FC<IButtonProps> = ({
@@ -23,6 +26,8 @@ export const GenericButton: React.FC<IButtonProps> = ({
   color,
   disabled,
   onClick,
+  startIcon,
+  size
 }) => {
   return (
     <Button
@@ -31,6 +36,8 @@ export const GenericButton: React.FC<IButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
       color={color}
+      startIcon={startIcon}
+      size={size}
     >
       {name}
     </Button>

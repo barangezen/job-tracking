@@ -18,6 +18,8 @@ interface ITextFieldProps {
   readonly?: boolean;
   fullWidth?: boolean;
   disabled?: boolean;
+  error?: boolean;
+  helperText?: string;
 }
 
 export const CustomTextField: React.FC<ITextFieldProps> = ({
@@ -35,6 +37,8 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
   readonly,
   disabled,
   fullWidth,
+  error,
+  helperText
 }) => {
   return (
     <Stack className={styles.container}>
@@ -58,6 +62,8 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
         margin={margin}
         fullWidth={fullWidth}
         disabled={disabled}
+        error={error}
+        helperText={helperText}
       />
     </Stack>
   );
