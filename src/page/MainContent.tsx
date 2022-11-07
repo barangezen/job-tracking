@@ -40,7 +40,7 @@ export const MainContent: React.FC = () => {
     dispatch(addJob(newJob));
     setCreateInput("");
   };
-
+console.log(createInput.length)
   return (
     <Container className={styles.container}>
       <span className={styles.title}>Create New Job</span>
@@ -52,6 +52,7 @@ export const MainContent: React.FC = () => {
             variant="outlined"
             value={createInput}
             onChange={handleCreateInputChange}
+            maxLength={255}
           />
         </div>
         <div className={styles.priortySelect}>

@@ -20,6 +20,7 @@ interface ITextFieldProps {
   disabled?: boolean;
   error?: boolean;
   helperText?: string;
+  maxLength?: number
 }
 
 export const CustomTextField: React.FC<ITextFieldProps> = ({
@@ -38,7 +39,8 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
   disabled,
   fullWidth,
   error,
-  helperText
+  helperText,
+  maxLength
 }) => {
   return (
     <Stack className={styles.container}>
@@ -56,6 +58,9 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
             <InputAdornment position="start">{inputIcon}</InputAdornment>
           ),
           readOnly: readonly,
+        }}
+        inputProps={{
+          maxLength: maxLength
         }}
         value={value}
         onChange={onChange}
