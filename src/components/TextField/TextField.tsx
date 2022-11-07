@@ -13,6 +13,11 @@ interface ITextFieldProps {
   inputIcon?: React.ReactNode;
   value?: string;
   onChange?: any;
+  autoFocus?: boolean;
+  margin?: "none" | "dense" | "normal";
+  readonly?: boolean;
+  fullWidth?: boolean;
+  disabled?: boolean;
 }
 
 export const CustomTextField: React.FC<ITextFieldProps> = ({
@@ -24,7 +29,12 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
   size,
   inputIcon,
   value,
-  onChange
+  onChange,
+  autoFocus,
+  margin,
+  readonly,
+  disabled,
+  fullWidth,
 }) => {
   return (
     <Stack className={styles.container}>
@@ -33,7 +43,7 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
         className={className}
         id="outlined-basic"
         label={label}
-        
+        autoFocus={autoFocus}
         placeholder={placeholder}
         variant={variant}
         size={size}
@@ -41,9 +51,13 @@ export const CustomTextField: React.FC<ITextFieldProps> = ({
           startAdornment: (
             <InputAdornment position="start">{inputIcon}</InputAdornment>
           ),
+          readOnly: readonly,
         }}
         value={value}
         onChange={onChange}
+        margin={margin}
+        fullWidth={fullWidth}
+        disabled={disabled}
       />
     </Stack>
   );
