@@ -12,7 +12,7 @@ interface ITextFieldProps {
   size: "small" | "medium";
   inputIcon?: React.ReactNode;
   value?: string;
-  onChange?: any;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   autoFocus?: boolean;
   margin?: "none" | "dense" | "normal";
   readonly?: boolean;

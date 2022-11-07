@@ -72,9 +72,7 @@
 
 .deleteConfirmContainer {
   display: flex;
-  text-align: center;
-  justify-content: center;
-  margin: 25px;
+  margin: 30px 100px 30px 100px;
 
   .infoIcon {
     width: 80px;
@@ -83,12 +81,15 @@
   .infoText {
     font-weight: 700;
     font-size: larger;
+    text-align: center;
   }
   .cancelBtn {
+    margin-top: 20px;
     margin-right: 2rem;
     width: 10rem;
   }
   .approveBtn {
+    margin-top: 20px;
     width: 10rem;
   }
 }
