@@ -14,7 +14,6 @@ import {
   tableCellClasses,
   SelectChangeEvent,
   Dialog,
-  DialogContent,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
@@ -38,7 +37,11 @@ export const List: React.FC = () => {
   });
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [selectedJob, setSelectedJob] = useState<any>();
+  const [selectedJob, setSelectedJob] = useState<IJob>({
+    id: "",
+    name: "",
+    priorty: Priorties.TRIVAL,
+  });
   const dispatch = useAppDispatch();
   console.log("selectedJob", selectedJob);
   const dropdownValues: IDropdownData[] = [
@@ -65,7 +68,10 @@ export const List: React.FC = () => {
   };
 
   const handleEditDropdownChange = (event: SelectChangeEvent) => {
-    setSelectedJob({ ...selectedJob, priorty: event.target.value as any });
+    setSelectedJob({
+      ...selectedJob,
+      priorty: event.target.value as Priorties,
+    });
   };
 
   const StyledTableCell = styled(TableCell)(() => ({
@@ -210,7 +216,6 @@ export const List: React.FC = () => {
       <Dialog open={openEdit} onClose={() => setOpenEdit(false)}>
         <Stack className={styles.editContainer}>
           <span className={styles.editTitle}>Job edit</span>
-
           <CustomTextField
             className={styles.editInput}
             autoFocus
@@ -239,7 +244,7 @@ export const List: React.FC = () => {
               className={styles.editApproveBtn}
               name="Approve"
               variant="contained"
-              color="secondary"
+              color="error"
               onClick={handleEdit}
             />
           </div>
@@ -249,17 +254,14 @@ export const List: React.FC = () => {
         id="delete-modal"
         open={openDeleteConfirm}
         onClose={() => setOpenDeleteConfirm(false)}
-        maxWidth={"sm"}
       >
         <Stack className={styles.deleteConfirmContainer}>
-          <div>
+          <div style={{ textAlign: "center" }}>
             <ErrorOutlineIcon className={styles.infoIcon} color="error" />
           </div>
-          <DialogContent>
-            <span className={styles.infoText}>
-              Are you sure you want to delete it? {selectedJob?.id}
-            </span>
-          </DialogContent>
+          <span className={styles.infoText}>
+            Are you sure you want to delete it?
+          </span>
           <div className={styles.confirmButtonsContainer}>
             <GenericButton
               className={styles.cancelBtn}

@@ -6,10 +6,12 @@ const { v4: uuidv4 } = require("uuid");
 
 const priorties = ["Trival", "Regular", "Urgent"];
 
+const order = { Urgent: 1, Regular: 2, Trival: 3 };
+
 const initialState: IJob[] = [
   {
     id: uuidv4(),
-    name: "adaylarla ilgili bir odev hazirlamam gerekiyor",
+    name: "adaylarla ilgili teknik bir odev hazirlamam gerekiyor",
     priorty: Priorties.URGENT,
   },
   {
@@ -19,7 +21,7 @@ const initialState: IJob[] = [
   },
   {
     id: uuidv4(),
-    name: "adaylarla ilgili bir odev hazirlamam gerekiyor",
+    name: "teknik tasklari planlayacagim",
     priorty: Priorties.TRIVAL,
   },
 ];
@@ -42,6 +44,9 @@ const jobsSlice = createSlice({
     },
     filterJobs: (state, action: PayloadAction<IJobFilter>) => {
       let filteredJobs = [...state.jobs];
+      filteredJobs = filteredJobs.sort(
+        (a, b) => order[a.priorty] - order[b.priorty]
+      );
       if (action.payload.selectedPriorty === "all") {
         filteredJobs = filteredJobs.filter((job) =>
           job.name.includes(action.payload.searchInput.toLocaleLowerCase())
