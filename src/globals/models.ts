@@ -7,6 +7,11 @@ export interface IJob {
 }
 
 export interface IDropdownData {
-    value: string | Priorties;
-    displayName: string;
-  }
+  value: string | Priorties;
+  displayName: string;
+}
+
+export interface IJobFilter {
+  selectedPriorty: string;
+  searchInput: string;
+}

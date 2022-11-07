@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./List.module.scss";
 import {
   TableContainer,
@@ -22,17 +22,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { CustomTextField } from "../TextField/TextField";
 import { Dropdown } from "../Dropdown/Dropdown";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { IDropdownData, IJob } from "../../globals/models";
+import { IDropdownData, IJob, IJobFilter } from "../../globals/models";
 import { Priorties } from "../../globals/enums";
 import { useState } from "react";
-import { removeJob } from "../../features/jobsSlice";
+import { filterJobs, removeJob } from "../../features/jobsSlice";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { GenericButton } from "../Button/Button";
 
 export const List: React.FC = () => {
-  const jobs = useAppSelector((state) => state.jobs);
-  const [filterInput, setFilterInput] = useState("");
-  const [selectedPriorty, setSelectedPriorty] = useState("");
+  const jobs = useAppSelector((state) => state.jobs.jobs);
+  const filteredJobs = useAppSelector((state) => state.jobs.filteredJobs);
+
+  const [filters, setFilters] = useState<IJobFilter>({
+    searchInput: "",
+    selectedPriorty: "all",
+  });
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const [selectedJob, setSelectedJob] = useState<IJob | undefined>();
   const dispatch = useAppDispatch();
@@ -47,11 +51,11 @@ export const List: React.FC = () => {
   const handleFilterInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setFilterInput(event.target.value);
+    setFilters({ ...filters, searchInput: event.target.value });
   };
 
   const handleDropdownChange = (event: SelectChangeEvent) => {
-    setSelectedPriorty(event.target.value as string);
+    setFilters({ ...filters, selectedPriorty: event.target.value });
   };
 
   const StyledTableCell = styled(TableCell)(() => ({
@@ -96,6 +100,10 @@ export const List: React.FC = () => {
     setOpenDeleteConfirm(!openDeleteConfirm);
   };
 
+  useEffect(() => {
+    dispatch(filterJobs(filters));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, jobs]);
   return (
     <TableContainer
       className={styles.container}
@@ -109,7 +117,7 @@ export const List: React.FC = () => {
             placeholder="Job Name"
             variant="outlined"
             inputIcon={<SearchIcon />}
-            value={filterInput}
+            value={filters.searchInput}
             onChange={handleFilterInputChange}
           />
         </div>
@@ -118,7 +126,7 @@ export const List: React.FC = () => {
             inputLabel
             label={"Priorty"}
             data={dropdownValues}
-            value={selectedPriorty}
+            value={filters.selectedPriorty}
             onChange={handleDropdownChange}
           />
         </div>
@@ -134,7 +142,7 @@ export const List: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {jobs.map((job: IJob) => {
+          {filteredJobs.map((job: IJob) => {
             return (
               <StyledTableRow
                 key={job.id}
@@ -208,7 +216,7 @@ export const List: React.FC = () => {
           })}
         </TableBody>
       </Table>
-      {jobs.length < 1 && (
+      {filteredJobs.length < 1 && (
         <div className={styles.noJobContainer}>
           <span className={styles.noJobText}>There is no job...</span>
         </div>
