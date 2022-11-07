@@ -30,4 +30,6 @@ Lets start the application:
     
 <p align="middle">
 <img src="https://github.com/barangezen/job-tracking/blob/main/src/screenshots/app.png?raw=true" alt="Tracking.png" width="1000" height="600" style="padding-right:10px" />
+<img src="https://github.com/barangezen/job-tracking/blob/main/src/screenshots/delete.png?raw=true" alt="Tracking.png" width="1000" height="600" style="padding-right:10px" />
+<img src="https://github.com/barangezen/job-tracking/blob/main/src/screenshots/edit.png?raw=true" alt="Tracking.png" width="1000" height="600" style="padding-right:10px" />
 </p>
