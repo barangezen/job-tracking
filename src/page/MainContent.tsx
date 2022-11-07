@@ -6,10 +6,11 @@ import { CustomTextField } from "../components/TextField/TextField";
 import { Stack } from "@mui/system";
 import { List } from "../components/List/List";
 import { Priorties } from "../globals/enums";
-import { IDropdownData, IJob } from "../globals/models";
+import { IJob } from "../globals/models";
 import { useState } from "react";
 import { useAppDispatch } from "../store";
 import { addJob } from "../features/jobsSlice";
+import { createDropdownValues, texts } from "../globals/contstants";
 
 export const MainContent: React.FC = () => {
   const { v4: uuidv4 } = require("uuid");
@@ -18,12 +19,6 @@ export const MainContent: React.FC = () => {
     Priorties.TRIVAL
   );
   const dispatch = useAppDispatch();
-
-  const dropdownValues: IDropdownData[] = [
-    { value: Priorties.TRIVAL, displayName: "Trival" },
-    { value: Priorties.REGULAR, displayName: "Regular" },
-    { value: Priorties.URGENT, displayName: "Urgent" },
-  ];
 
   const handleCreateInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -51,7 +46,7 @@ export const MainContent: React.FC = () => {
       <Stack className={styles.createJobContainer}>
         <div className={styles.jobNameCreate}>
           <CustomTextField
-            title={"Job Name"}
+            title={texts.jobNameTitle}
             size="small"
             variant="outlined"
             value={createInput}
@@ -60,8 +55,8 @@ export const MainContent: React.FC = () => {
         </div>
         <div className={styles.priortySelect}>
           <Dropdown
-            title="Job Priorty"
-            data={dropdownValues}
+            title={texts.jobPriortyTitle}
+            data={createDropdownValues}
             value={selectedPriorty}
             onChange={handleDropdownChange}
           />
@@ -74,11 +69,11 @@ export const MainContent: React.FC = () => {
           startIcon={<AddIcon />}
           onClick={() => handleCreateJob(createInput, selectedPriorty)}
         >
-          Create
+          {texts.create}
         </Button>
       </Stack>
       <Stack>
-        <span className={styles.jobListTitle}>Job List</span>
+        <span className={styles.jobListTitle}>{texts.jobListTitle}</span>
         <List />
       </Stack>
     </Container>

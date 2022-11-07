@@ -87,10 +87,12 @@
     margin-top: 20px;
     margin-right: 2rem;
     width: 10rem;
+    text-transform: none;
   }
   .approveBtn {
     margin-top: 20px;
     width: 10rem;
+    text-transform: none;
   }
 }
 
@@ -106,7 +108,6 @@
   }
   .editInput {
     width: 30rem;
-    margin-bottom: 30px;
   }
   .editButtons {
     margin-top: 30px;
@@ -115,8 +116,10 @@
   .editCancelBtn {
     margin-right: 2rem;
     width: 10rem;
+    text-transform: none;
   }
   .editApproveBtn {
     width: 10rem;
+    text-transform: none;
   }
 }
