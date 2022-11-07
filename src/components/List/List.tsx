@@ -21,12 +21,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { CustomTextField } from "../TextField/TextField";
 import { Dropdown } from "../Dropdown/Dropdown";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { IDropdownData, IJob, IJobFilter } from "../../globals/models";
+import { IJob, IJobFilter } from "../../globals/models";
 import { Priorties } from "../../globals/enums";
 import { useState } from "react";
 import { filterJobs, removeJob, updateJob } from "../../features/jobsSlice";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { GenericButton } from "../Button/Button";
+import {
+  filterDropdownValues,
+  editDropdownValues,
+  texts,
+} from "../../globals/contstants";
 
 export const List: React.FC = () => {
   const jobs = useAppSelector((state) => state.jobs.jobs);
@@ -43,19 +48,6 @@ export const List: React.FC = () => {
     priorty: Priorties.TRIVAL,
   });
   const dispatch = useAppDispatch();
-  console.log("selectedJob", selectedJob);
-  const dropdownValues: IDropdownData[] = [
-    { value: "all", displayName: "Priorty (all)" },
-    { value: Priorties.TRIVAL, displayName: "Trival" },
-    { value: Priorties.REGULAR, displayName: "Regular" },
-    { value: Priorties.URGENT, displayName: "Urgent" },
-  ];
-
-  const editDropdownValues: IDropdownData[] = [
-    { value: Priorties.TRIVAL, displayName: "Trival" },
-    { value: Priorties.REGULAR, displayName: "Regular" },
-    { value: Priorties.URGENT, displayName: "Urgent" },
-  ];
 
   const handleFilterInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -133,6 +125,7 @@ export const List: React.FC = () => {
     dispatch(filterJobs(filters));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, jobs]);
+
   return (
     <TableContainer
       className={styles.container}
@@ -143,7 +136,7 @@ export const List: React.FC = () => {
         <div className={styles.searchFilter}>
           <CustomTextField
             size="small"
-            placeholder="Job Name"
+            placeholder={texts.jobNameTitle}
             variant="outlined"
             inputIcon={<SearchIcon />}
             value={filters.searchInput}
@@ -153,8 +146,8 @@ export const List: React.FC = () => {
         <div className={styles.selectFilter}>
           <Dropdown
             inputLabel
-            label={"Priorty"}
-            data={dropdownValues}
+            label={texts.priortyTitle}
+            data={filterDropdownValues}
             value={filters.selectedPriorty}
             onChange={handleFilterDropdownChange}
           />
@@ -164,10 +157,12 @@ export const List: React.FC = () => {
         <TableHead>
           <TableRow>
             <StyledTableCell className={styles.cellNameTitle}>
-              Name
+              {texts.nameTitle}
             </StyledTableCell>
-            <StyledTableCell align="left">Priorty</StyledTableCell>
-            <StyledTableCell align="center">Action</StyledTableCell>
+            <StyledTableCell align="left">{texts.priortyTitle}</StyledTableCell>
+            <StyledTableCell align="center">
+              {texts.actionTitle}
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -210,16 +205,16 @@ export const List: React.FC = () => {
       </Table>
       {filteredJobs.length < 1 && (
         <div className={styles.noJobContainer}>
-          <span className={styles.noJobText}>There is no job...</span>
+          <span className={styles.noJobText}>{texts.thereIsNoJob}</span>
         </div>
       )}
       <Dialog open={openEdit} onClose={() => setOpenEdit(false)}>
         <Stack className={styles.editContainer}>
-          <span className={styles.editTitle}>Job edit</span>
+          <span className={styles.editTitle}>{texts.jobEdit}</span>
           <CustomTextField
             className={styles.editInput}
             autoFocus
-            label="Job Name"
+            label={texts.jobNameTitle}
             margin="dense"
             variant="outlined"
             size="small"
@@ -231,18 +226,19 @@ export const List: React.FC = () => {
             data={editDropdownValues}
             value={selectedJob ? selectedJob.priorty : ""}
             onChange={handleEditDropdownChange}
+            title={texts.jobPriortyTitle}
           />
           <div className={styles.editButtons}>
             <GenericButton
               className={styles.editCancelBtn}
-              name="Cancel"
+              name={texts.cancel}
               variant="contained"
               color="inherit"
               onClick={() => setOpenEdit(false)}
             />
             <GenericButton
               className={styles.editApproveBtn}
-              name="Approve"
+              name={texts.save}
               variant="contained"
               color="error"
               onClick={handleEdit}
@@ -259,20 +255,18 @@ export const List: React.FC = () => {
           <div style={{ textAlign: "center" }}>
             <ErrorOutlineIcon className={styles.infoIcon} color="error" />
           </div>
-          <span className={styles.infoText}>
-            Are you sure you want to delete it?
-          </span>
+          <span className={styles.infoText}>{texts.deleteConfirm}</span>
           <div className={styles.confirmButtonsContainer}>
             <GenericButton
               className={styles.cancelBtn}
-              name="Cancel"
+              name={texts.cancel}
               variant="contained"
               color="inherit"
               onClick={handleCloseDeleteConfirm}
             />
             <GenericButton
               className={styles.approveBtn}
-              name="Approve"
+              name={texts.approve}
               variant="contained"
               color="error"
               onClick={() => handleJobDelete(selectedJob?.id)}
