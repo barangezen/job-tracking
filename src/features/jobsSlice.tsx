@@ -58,8 +58,13 @@ const jobsSlice = createSlice({
 
       state.filteredJobs = filteredJobs;
     },
+    updateJob: (state, action: PayloadAction<IJob>) => {
+      state.jobs = state.jobs.map((job) => {
+        return job.id === action.payload.id ? action.payload : job;
+      });
+    },
   },
 });
 
-export const { addJob, removeJob, filterJobs } = jobsSlice.actions;
+export const { addJob, removeJob, filterJobs, updateJob } = jobsSlice.actions;
 export default jobsSlice.reducer;

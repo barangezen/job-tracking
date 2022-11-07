@@ -75,11 +75,11 @@
   text-align: center;
   justify-content: center;
   margin: 25px;
+
   .infoIcon {
     width: 80px;
     height: 80px;
   }
-
   .infoText {
     font-weight: 700;
     font-size: larger;
@@ -89,6 +89,33 @@
     width: 10rem;
   }
   .approveBtn {
+    width: 10rem;
+  }
+}
+
+.editContainer {
+  display: flex;
+  margin: 30px 30px 60px 30px;
+
+  .editTitle {
+    font-weight: 700;
+    font-size: x-large;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .editInput {
+    width: 30rem;
+    margin-bottom: 30px;
+  }
+  .editButtons {
+    margin-top: 30px;
+    text-align: center;
+  }
+  .editCancelBtn {
+    margin-right: 2rem;
+    width: 10rem;
+  }
+  .editApproveBtn {
     width: 10rem;
   }
 }
